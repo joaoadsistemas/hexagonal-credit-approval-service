@@ -1,3 +1,9 @@
 spring:
   application:
     name: hexagonal-credit-approval-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/credit_db}
+    representation:
+      uuid: standard
