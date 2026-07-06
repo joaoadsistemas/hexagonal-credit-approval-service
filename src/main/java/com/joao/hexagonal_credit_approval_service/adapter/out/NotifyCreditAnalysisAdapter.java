@@ -1,6 +1,6 @@
 package com.joao.hexagonal_credit_approval_service.adapter.out;
 
-import com.joao.hexagonal_credit_approval_service.adapter.out.exception.SerializeException;
+import com.joao.hexagonal_credit_approval_service.adapter.exception.SerializeException;
 import com.joao.hexagonal_credit_approval_service.adapter.out.mapper.CreditAnalysisResultMessageMapper;
 import com.joao.hexagonal_credit_approval_service.adapter.out.message.CreditAnalysisResultMessage;
 import com.joao.hexagonal_credit_approval_service.application.core.domain.CreditAnalysis;

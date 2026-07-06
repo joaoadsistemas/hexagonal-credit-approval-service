@@ -1,7 +1,7 @@
 package com.joao.hexagonal_credit_approval_service.adapter.in.handler;
 
-import com.joao.hexagonal_credit_approval_service.adapter.out.exception.NotFoundException;
-import com.joao.hexagonal_credit_approval_service.adapter.out.exception.SerializeException;
+import com.joao.hexagonal_credit_approval_service.adapter.exception.NotFoundException;
+import com.joao.hexagonal_credit_approval_service.adapter.exception.SerializeException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

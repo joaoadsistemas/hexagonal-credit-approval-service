@@ -1,4 +1,4 @@
-package com.joao.hexagonal_credit_approval_service.adapter.out.exception;
+package com.joao.hexagonal_credit_approval_service.adapter.exception;
 
 import com.joao.hexagonal_credit_approval_service.adapter.out.message.CreditAnalysisResultMessage;
 
