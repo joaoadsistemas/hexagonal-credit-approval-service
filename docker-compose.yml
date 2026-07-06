@@ -1,5 +1,4 @@
 services:
-  # 1. Nosso Banco de Dados
   mongodb:
     image: mongo
     container_name: credit-mongodb
@@ -8,7 +7,6 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  # 2. Nosso Message Broker (Kafka com KRaft)
   kafka:
     image: apache/kafka:latest
     container_name: credit-kafka
@@ -29,14 +27,12 @@ services:
       - "9092:9092"
       - "9094:9094"
 
-  # 3. O Nosso Microsserviço
   credit-approval-service:
     build: .
     container_name: credit-approval-service
     ports:
       - "8080:8080"
     environment:
-      # Aqui nós injetamos os nomes dos containers que configuramos no application.yml!
       - MONGODB_URI=mongodb://mongodb:27017/credit_db
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
