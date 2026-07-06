@@ -1,23 +1,25 @@
 package com.joao.hexagonal_credit_approval_service.application.core.useCase;
 
 import com.joao.hexagonal_credit_approval_service.application.core.domain.CreditAnalysis;
-import com.joao.hexagonal_credit_approval_service.application.ports.in.CreditAnalysisInputPort;
+import com.joao.hexagonal_credit_approval_service.application.ports.in.ValidateCreditAnalysisInputPort;
 import com.joao.hexagonal_credit_approval_service.application.ports.out.GetClientScoreOutputPort;
 import com.joao.hexagonal_credit_approval_service.application.ports.out.CheckRecentCreditAnalysisOutputPort;
 import com.joao.hexagonal_credit_approval_service.application.ports.out.SaveCreditAnalysisOutputPort;
 import com.joao.hexagonal_credit_approval_service.application.ports.out.NotifyCreditAnalysisOutputPort;
 
-public class CreditAnalysisUseCase implements CreditAnalysisInputPort {
+import java.time.LocalDateTime;
+
+public class ValidateCreditAnalysisUseCase implements ValidateCreditAnalysisInputPort {
 
     private final CheckRecentCreditAnalysisOutputPort checkRecentCreditAnalysisOutputPort;
     private final GetClientScoreOutputPort getClientScoreOutputPort;
     private final SaveCreditAnalysisOutputPort saveCreditAnalysisOutputPort;
     private final NotifyCreditAnalysisOutputPort notifyCreditAnalysisOutputPort;
 
-    public CreditAnalysisUseCase(CheckRecentCreditAnalysisOutputPort checkRecentCreditAnalysisOutputPort,
-                                 GetClientScoreOutputPort getClientScoreOutputPort,
-                                 SaveCreditAnalysisOutputPort saveCreditAnalysisOutputPort,
-                                 NotifyCreditAnalysisOutputPort notifyCreditAnalysisOutputPort) {
+    public ValidateCreditAnalysisUseCase(CheckRecentCreditAnalysisOutputPort checkRecentCreditAnalysisOutputPort,
+                                         GetClientScoreOutputPort getClientScoreOutputPort,
+                                         SaveCreditAnalysisOutputPort saveCreditAnalysisOutputPort,
+                                         NotifyCreditAnalysisOutputPort notifyCreditAnalysisOutputPort) {
         this.checkRecentCreditAnalysisOutputPort = checkRecentCreditAnalysisOutputPort;
         this.getClientScoreOutputPort = getClientScoreOutputPort;
         this.saveCreditAnalysisOutputPort = saveCreditAnalysisOutputPort;
@@ -27,6 +29,7 @@ public class CreditAnalysisUseCase implements CreditAnalysisInputPort {
 
     @Override
     public CreditAnalysis validate(CreditAnalysis creditAnalysis) {
+        creditAnalysis.setAnalysisDate(LocalDateTime.now());
         boolean hasRecent = checkRecentCreditAnalysisOutputPort.hasRecent(creditAnalysis.getCustomerId());
         Long score = getClientScoreOutputPort.getScore(creditAnalysis.getCustomerId());
         creditAnalysis.validate(hasRecent, score);

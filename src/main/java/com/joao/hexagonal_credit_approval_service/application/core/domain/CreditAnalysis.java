@@ -13,12 +13,12 @@ public class CreditAnalysis {
     private Status status;
     private String denialReason;
     private LocalDateTime analysisDate;
-    private BigDecimal creditValue = BigDecimal.ZERO;
+    private BigDecimal approvedLimit = BigDecimal.ZERO;
 
     public CreditAnalysis() {
     }
 
-    public CreditAnalysis(UUID analysisId, UUID customerId, BigDecimal declaredIncome, Integer age, Status status, String denialReason, LocalDateTime analysisDate, BigDecimal creditValue) {
+    public CreditAnalysis(UUID analysisId, UUID customerId, BigDecimal declaredIncome, Integer age, Status status, String denialReason, LocalDateTime analysisDate, BigDecimal approvedLimit) {
         this.analysisId = analysisId;
         this.customerId = customerId;
         this.declaredIncome = declaredIncome;
@@ -26,7 +26,7 @@ public class CreditAnalysis {
         this.status = status;
         this.denialReason = denialReason;
         this.analysisDate = analysisDate;
-        this.creditValue = creditValue;
+        this.approvedLimit = approvedLimit;
     }
 
     public void validate(boolean hasRecentCreditAnalysis, Long score) {
@@ -44,20 +44,20 @@ public class CreditAnalysis {
 
         if (score >= 400 && score <= 699) {
             this.status = Status.APPROVED;
-            this.creditValue = this.declaredIncome.multiply(new BigDecimal("0.30"));
+            this.approvedLimit = this.declaredIncome.multiply(new BigDecimal("0.30"));
         } else if (score >= 700 && score <= 1000) {
             this.status = Status.APPROVED;
-            this.creditValue = this.declaredIncome.multiply(new BigDecimal("0.50"));
+            this.approvedLimit = this.declaredIncome.multiply(new BigDecimal("0.50"));
         }
 
         if (this.age < 21 || this.age > 65) {
-            this.creditValue = this.creditValue.multiply(new BigDecimal("0.80"));
+            this.approvedLimit = this.approvedLimit.multiply(new BigDecimal("0.80"));
         }
 
-        if (this.creditValue.compareTo(new BigDecimal("500.00")) < 0) {
+        if (this.approvedLimit.compareTo(new BigDecimal("500.00")) < 0) {
             this.status = Status.DENIED;
             this.denialReason = "Credit value does not meet the operational requirements";
-            this.creditValue = BigDecimal.ZERO;
+            this.approvedLimit = BigDecimal.ZERO;
         }
     }
 
@@ -117,11 +117,11 @@ public class CreditAnalysis {
         this.analysisDate = analysisDate;
     }
 
-    public BigDecimal getCreditValue() {
-        return creditValue;
+    public BigDecimal getApprovedLimit() {
+        return approvedLimit;
     }
 
-    public void setCreditValue(BigDecimal creditValue) {
-        this.creditValue = creditValue;
+    public void setApprovedLimit(BigDecimal approvedLimit) {
+        this.approvedLimit = approvedLimit;
     }
 }
